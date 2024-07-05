@@ -10,6 +10,7 @@ const isAutoPlayWordAudio = ref(true)
 const isOnlyShowErrors = ref(false)
 const isFinishTraining = ref(false)
 const isShowSource = ref(false)
+const isFade = ref(false)
 
 const trainingStats = ref('')
 const keyword = ref('')
@@ -232,6 +233,13 @@ function copyAllError() {
                 placeholder="Search">
             </div> -->
             <label class="ml-2 inline-flex cursor-pointer items-center">
+              <input v-model="isFade" type="checkbox" class="peer sr-only">
+              <div
+                class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:border after:border-gray-300 dark:border-gray-600 after:rounded-full after:bg-white dark:bg-gray-700 peer-checked:bg-blue-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"
+              />
+              <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">淡化释义</span>
+            </label>
+            <label class="ml-2 inline-flex cursor-pointer items-center">
               <input v-model="isTrainingModel" type="checkbox" class="peer sr-only">
               <div
                 class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:border after:border-gray-300 dark:border-gray-600 after:rounded-full after:bg-white dark:bg-gray-700 peer-checked:bg-blue-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"
@@ -336,8 +344,8 @@ function copyAllError() {
                           <input
                             :id="item.id" autocomplete="off" :class="getInputStyleClass(item)"
                             type="text"
-                            @focusout="onInputFoucsOut($event, item)" 
-                            @focusin="onInputFoucsIn($event, `vocabulary/audio/${category}/${item.word[0]}.mp3`)" 
+                            @focusout="onInputFoucsOut($event, item)"
+                            @focusin="onInputFoucsIn($event, `vocabulary/audio/${category}/${item.word[0]}.mp3`)"
                             @keydown="onInputKeydown"
                           >
                         </template>
@@ -362,7 +370,7 @@ function copyAllError() {
                       <td style="font-style: italic; font-family: times;">
                         {{ item.pos }}
                       </td>
-                      <td class="p-4">
+                      <td class="p-4" :style="{ color: isFade ? '#eee' : '' }">
                         {{ isShowMeaning ? item.meaning : '' }}
                       </td>
                       <td class="p-4">
